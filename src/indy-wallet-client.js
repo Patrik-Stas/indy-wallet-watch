@@ -70,6 +70,14 @@ export function createWalletClient(walletName, key, poolHandle) {
     return dids;
   }
 
+  async function listPairwise() {
+    await assureWalletOpen();
+    const pairwise = await indy.listPairwise(walletHandle);
+    await assureWalletClosed();
+    return pairwise;
+  }
+
+
   async function findDidWithMeta(findMetadata) {
     console.log(`Searching for DID with metadata = ${findMetadata}`);
     const didsWithMeta = await indy.listMyDidsWithMeta(walletHandle);
@@ -136,15 +144,32 @@ export function createWalletClient(walletName, key, poolHandle) {
     return res;
   }
 
-  async function toTableString() {
+  async function didsToTableString() {
     var table = new Table({
       head: ['DID', 'Verkey', 'TmpVerkey', 'Metadata']
-      , colWidths: [32, 48, 16, 32]
+      , colWidths: [32, 48, 16, 128]
     });
     const didsWithMeta = await listMyDidsWithMeta();
     const didsForTable = didsWithMeta.map(o => [o.did, o.verkey, o.tempVerkey || "", o.metadata || ""]);
     for (let i=0; i<didsForTable.length; i++) {
       table.push(didsForTable[i])
+    }
+    return table.toString()
+  }
+
+
+  async function pairwiseToTableString() {
+    const pairwiseWithmeeta = await listPairwise();
+    if (pairwiseWithmeeta.length === 0) {
+      return ""
+    }
+    var table = new Table({
+      head: ['my_did', 'their_did', 'metadata']
+      , colWidths: [32, 48, 128]
+    });
+    const pairwisesForTable = pairwiseWithmeeta.map(o => [o.my_did, o.their_did, o.metadata || ""]);
+    for (let i=0; i<pairwisesForTable.length; i++) {
+      table.push(pairwisesForTable[i])
     }
     return table.toString()
   }
@@ -191,7 +216,8 @@ export function createWalletClient(walletName, key, poolHandle) {
     writeTrustAnchorOnLedger,
     getDid,
     listMyDidsWithMeta,
-    toTableString,
+    pairwiseToTableString,
+    didsToTableString,
     listMyCredentials,
     credentialsAsTableString
   }

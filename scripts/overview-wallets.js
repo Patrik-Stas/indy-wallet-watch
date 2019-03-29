@@ -9,17 +9,27 @@ async function run() {
   const wallets = await Promise.all(_.map(discovered, async rec => {
     const {name, key} = rec;
     const wallet = await createWalletClient(name, key);
-    const table = await wallet.toTableString();
-    return {table, name, key};
+    const didTable = await wallet.didsToTableString();
+    const pairwiseTable = await wallet.pairwiseToTableString();
+    return {didTable, pairwiseTable, name, key};
   }));
-  for (const {table, name, key} of wallets) {
-    console.log(`Wallet '${name}' is using key '${key}' and contains:`);
-    console.log(table)
+  for (const {didTable, pairwiseTable , name, key} of wallets) {
+
+    console.log(`---------------------------------------------------------------------------------------------------------------`);
+    console.log(`----------------------- '${name}' ----------------------- (key ='${key}')`);
+    console.log(`DID table:`);
+    console.log(didTable);
+    if (!!pairwiseTable) {
+      console.log(`Pairwise DID table:`);
+      console.log(pairwiseTable)
+    }
   }
+
+  console.log(`---------------------------------------------------------------------------------------------------------------`);
+  console.log(`-------------------------------Couldn't open wallets--------------------------------------------------`);
   const unknownWallets = _.map(unknown, o => o.name);
-  for (const name of unknownWallets) {
-    console.log(`Wallet '${name}' key is unknown.`)
-  }
+  console.log(JSON.stringify(unknownWallets))
+  console.log(`---------------------------------------------------------------------------------------------------------------`);
 }
 
 run();
