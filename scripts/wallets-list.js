@@ -1,8 +1,8 @@
-import {listWallets} from '../lib/indy-utils'
+import { listWallets } from '../src/indy-utils'
 
-async function run() {
-  const wallets = await listWallets();
-  console.log(wallets);
+async function run () {
+  const wallets = await listWallets()
+  console.log(wallets)
 }
 
-run();
+run()
