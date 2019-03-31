@@ -1,5 +1,5 @@
-import Table from 'cli-table/lib'
-import _ from 'lodash'
+const Table = require('cli-table/lib')
+const _ = require('lodash')
 
 async function findDidWithMeta (client, searchMetadata) {
   console.log(`Searching for DID with metadata = ${searchMetadata}`)
@@ -14,7 +14,7 @@ async function findDidWithMeta (client, searchMetadata) {
   return null
 }
 
-export async function getDidWithMetadata (metadata) {
+async function getDidWithMetadata (metadata) {
   let did = null
   let vkey = null
   if (metadata) {
@@ -30,7 +30,7 @@ export async function getDidWithMetadata (metadata) {
   return { did, vkey }
 }
 
-export function didsToTableString (didRecords) {
+function didsToTableString (didRecords) {
   if (didRecords.length === 0) {
     return ''
   }
@@ -45,7 +45,7 @@ export function didsToTableString (didRecords) {
   return table.toString()
 }
 
-export function pairwiseToTableString (pairwiseRecords) {
+function pairwiseToTableString (pairwiseRecords) {
   if (pairwiseRecords.length === 0) {
     return ''
   }
@@ -59,3 +59,8 @@ export function pairwiseToTableString (pairwiseRecords) {
   }
   return table.toString()
 }
+
+module.exports.findDidWithMeta = findDidWithMeta
+module.exports.getDidWithMetadata = getDidWithMetadata
+module.exports.didsToTableString = didsToTableString
+module.exports.pairwiseToTableString = pairwiseToTableString

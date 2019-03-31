@@ -1,4 +1,6 @@
-import { findKeysForWallets, listWallets } from '../src/indy-utils'
+#!/usr/bin/env node
+
+import { findKeysForWallets, listWallets } from '../indy-utils'
 
 const keyDictionary = ['foo', 'bar', '123', 'key']
 

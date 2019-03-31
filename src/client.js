@@ -1,8 +1,8 @@
-import indy from 'indy-sdk'
-import fs from 'fs'
+const indy = require('indy-sdk')
+const fs = require('fs')
 const homedir = require('os').homedir()
 
-export function createWalletClient (walletName, key) {
+module.exports = function createWalletClient (walletName, key) {
   if (!walletName) {
     throw Error('wallet name must be defined')
   }
@@ -20,11 +20,7 @@ export function createWalletClient (walletName, key) {
   }
 
   async function createWallet () {
-    console.log(`Creating wallet. Wallet config:
-    \n${JSON.stringify(walletConfig, null, 2)}.
-    \n${JSON.stringify(walletCredentials, null, 2)}`)
     await indy.createWallet(walletConfig, walletCredentials)
-    console.log(`New wallet '${walletName}' created.`)
   }
 
   async function assureWalletExists () {
@@ -65,9 +61,7 @@ export function createWalletClient (walletName, key) {
   async function openPoolLedger (poolName) {
     if (!poolHandle) {
       indy.setProtocolVersion(2)
-      console.log(`Connecting to ${poolName}`)
       poolHandle = await indy.openPoolLedger(poolName)
-      console.log('Connected.')
     } else {
       console.warn(`Client for wallet ${walletName} already connected to pool ${poolName}`)
     }

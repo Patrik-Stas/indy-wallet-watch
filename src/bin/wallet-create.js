@@ -1,4 +1,6 @@
-import { createWalletClient } from '../src/client'
+#!/usr/bin/env node
+
+const createWalletClient = require('../client')
 
 const walletName = process.env.WALLET
 const walletKey = process.env.KEY

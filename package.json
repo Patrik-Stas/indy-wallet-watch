@@ -1,24 +1,29 @@
 {
   "name": "@patrikstas/indy-wallet-watch",
-  "version": "0.0.1",
+  "version": "0.2.0",
   "description": "Utilities for inspection of Hyperledger Indy wallets.",
   "author": "Patrik Stas",
   "license": "MIT",
-  "main": "index.js",
+  "main": "dist/index.js",
   "files": [
-    "/src",
-    "/scripts"
+    "/dist",
+    "/dist/bin"
   ],
+  "bin": {
+    "wallet-create": "./dist/bin/wallet-create.js",
+    "wallet-inspect": "./dist/bin/wallet-inspect.js",
+    "wallet-keys": "./dist/bin/wallet-find-keys.js",
+    "wallets-list": "./dist/bin/wallets-list.js"
+  },
   "scripts": {
-    "wallet-create": "babel-node ./scripts/wallet-create.js",
-    "wallet-inspect": "babel-node ./scripts/wallet-inspect.js",
-    "wallet-keys": "babel-node ./scripts/wallet-find-keys.js",
-    "wallets-list": "babel-node ./scripts/wallets-list.js",
-    "standard": "standard lib/**/*.js scripts/**/*.js",
+    "standard": "standard src/**/*.js scripts/**/*.js",
     "test": "echo 'add tests here'",
-    "prepublish": "npm run standard && npm run test && npm run build"
+    "build": "cross-env BABEL_ENV=production babel src --out-dir dist",
+    "clean": "rimraf dist",
+    "prepublish": "npm run standard && npm run clean && npm run build && npm run test"
   },
   "devDependencies": {
+    "@types/node": "^8.0.47",
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.3.4",
     "@babel/node": "^7.2.2",
@@ -26,7 +31,7 @@
     "@babel/register": "^7.0.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^23.6.0",
-    "cli-table": "^0.3.1",
+    "cross-env": "^5.2.0",
     "jest": "^23.6.0",
     "jest-cli": "^23.6.0",
     "jest-html-reporter": "2.4.3",
@@ -35,17 +40,12 @@
     "standard": "^12.0.1"
   },
   "dependencies": {
-    "@types/node": "^8.0.47",
-    "@types/ref": "0.0.28",
-    "@types/ref-struct": "0.0.28",
+    "cli-table": "^0.3.1",
     "bluebird": "^3.5.3",
     "command-line-args": "^5.1.0",
     "fs-extra": "^4.0.2",
     "indy-sdk": "^1.8.1-dev-1028",
     "lodash": "^4.17.11",
-    "ref": "^1.3.5",
-    "ref-struct": "^1.1.0",
-    "sleep-promise": "^8.0.1",
-    "winston": "^3.2.1"
+    "sleep-promise": "^8.0.1"
   }
 }

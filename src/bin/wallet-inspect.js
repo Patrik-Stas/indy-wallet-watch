@@ -1,8 +1,10 @@
-import { createWalletClient } from '../src/client'
-import { findKeysForWallets, listWallets } from '../src/indy-utils'
-import { didsToTableString, pairwiseToTableString } from '../src/client-utils'
-import _ from 'lodash'
-import Promise from 'bluebird'
+#!/usr/bin/env node
+
+const createWalletClient = require('../client')
+const { findKeysForWallets, listWallets } = require('../indy-utils')
+const { didsToTableString, pairwiseToTableString } = require('../client-utils')
+const _ = require('lodash')
+const Promise = require('bluebird')
 
 async function determineTargetWallets () {
   if (process.env.WALLET) {
