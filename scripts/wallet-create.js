@@ -1,4 +1,4 @@
-import {createWalletClient} from "../src/indy-wallet-client";
+import {createWalletClient} from "../lib/client";
 
 const walletName = process.env.WALLET;
 const walletKey = process.env.KEY;

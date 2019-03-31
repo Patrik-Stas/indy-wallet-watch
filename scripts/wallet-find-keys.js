@@ -1,5 +1,5 @@
-import {createWalletClient} from "../src/indy-wallet-client";
-import {findKeyForWallet, findKeysForWallets, listWallets} from "../src/indytools";
+import {createWalletClient} from "../lib/client-utils";
+import {findKeyForWallet, findKeysForWallets, listWallets} from "../lib/indy-utils";
 
 
 const keyDictionary = ['foo', 'bar', '123', 'key'];
