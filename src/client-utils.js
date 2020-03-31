@@ -1,4 +1,4 @@
-const Table = require('cli-table/lib')
+const Table = require('cli-table3')
 const _ = require('lodash')
 
 async function findDidWithMeta (client, searchMetadata) {
@@ -36,7 +36,7 @@ function didsToTableString (didRecords) {
   }
   var table = new Table({
     head: ['DID', 'Verkey', 'TmpVerkey', 'Metadata'],
-    colWidths: [32, 48, 16, 128]
+    colWidths: [32, 48, 16, 50]
   })
   const didsForTable = _.map(didRecords, o => [o.did, o.verkey, o.tempVerkey || '', o.metadata || ''])
   for (let i = 0; i < didsForTable.length; i++) {
@@ -51,7 +51,7 @@ function pairwiseToTableString (pairwiseRecords) {
   }
   var table = new Table({
     head: ['my_did', 'their_did', 'metadata'],
-    colWidths: [32, 48, 128]
+    colWidths: [32, 48, 50]
   })
   const pairwisesForTable = _.map(pairwiseRecords, o => [o.my_did, o.their_did, o.metadata || ''])
   for (let i = 0; i < pairwisesForTable.length; i++) {

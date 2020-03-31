@@ -10,42 +10,37 @@
     "/dist/bin"
   ],
   "bin": {
-    "wallet-create": "./dist/bin/wallet-create.js",
-    "wallet-inspect": "./dist/bin/wallet-inspect.js",
-    "wallet-keys": "./dist/bin/wallet-find-keys.js",
-    "wallets-list": "./dist/bin/wallets-list.js"
+    "wallet-create": "./src/bin/wallet-create.js",
+    "wallet-inspect": "./src/bin/wallet-inspect.js",
+    "wallet-list": "./src/bin/wallet-list.js",
+    "wallet-delete": "./src/bin/wallet-delete.js"
   },
   "scripts": {
     "standard": "standard src/**/*.js scripts/**/*.js",
     "test": "echo 'add tests here'",
-    "build": "cross-env BABEL_ENV=production babel src --out-dir dist",
-    "clean": "rimraf dist",
-    "prepublish": "npm run standard && npm run clean && npm run build && npm run test"
+    "prepublish": "npm run standard && npm run test",
+    "wallet-create": "node ./src/bin/wallet-create.js",
+    "wallet-list": "node ./src/bin/wallet-list.js",
+    "wallet-inspect": "node ./src/bin/wallet-inspect.js",
+    "wallet-delete": "node ./src/bin/wallet-delete.js"
   },
   "devDependencies": {
     "@types/node": "^8.0.47",
-    "@babel/cli": "^7.2.3",
-    "@babel/core": "^7.3.4",
-    "@babel/node": "^7.2.2",
-    "@babel/preset-env": "^7.3.4",
-    "@babel/register": "^7.0.0",
-    "babel-core": "^7.0.0-bridge.0",
-    "babel-jest": "^23.6.0",
     "cross-env": "^5.2.0",
     "jest": "^23.6.0",
     "jest-cli": "^23.6.0",
     "jest-html-reporter": "2.4.3",
     "nodemon": "^1.18.10",
-    "rimraf": "^2.6.3",
     "standard": "^12.0.1"
   },
   "dependencies": {
-    "cli-table": "^0.3.1",
+    "rimraf": "^2.6.3",
     "bluebird": "^3.5.3",
-    "command-line-args": "^5.1.0",
-    "fs-extra": "^4.0.2",
-    "indy-sdk": "^1.8.1-dev-1028",
-    "lodash": "^4.17.11",
-    "sleep-promise": "^8.0.1"
+    "cli-table3": "^0.5.1",
+    "command-line-args": "^5.1.1",
+    "command-line-usage": "^5.0.5",
+    "glob": "^7.1.3",
+    "indy-sdk": "^1.11.0",
+    "lodash": "^4.17.11"
   }
 }

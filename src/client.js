@@ -93,6 +93,10 @@ module.exports = function createWalletClient (walletName, key) {
     return safeWalletOp(async () => indy.listPairwise(walletHandle))
   }
 
+  async function searchAll () {
+    return safeWalletOp(async () => indy.openWalletSearch(walletHandle, '*', '{}', '{}'))
+  }
+
   async function getMyDidWithMeta (did) {
     return safeWalletOp(async () => indy.getMyDidWithMeta(walletHandle, did))
   }
@@ -116,6 +120,7 @@ module.exports = function createWalletClient (walletName, key) {
     getMyDidWithMeta,
     openWallet,
     closeWallet,
-    listPairwise
+    listPairwise,
+    searchAll
   }
 }

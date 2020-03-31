@@ -1,16 +1,34 @@
+const util = require('util')
 const fs = require('fs')
 const createWalletClient = require('./client')
 const _ = require('lodash')
 const homedir = require('os').homedir()
+let glob = require('glob')
+const rimraf = require('rimraf')
+const asyncrimraf = util.promisify(rimraf)
 
 function getWalletDirectory () {
   return `${homedir}/.indy_client/wallet/`
 }
 
-async function listWallets () {
+function walletExists (walletName) {
+  return fs.existsSync(`${getWalletDirectory()}${walletName}`)
+}
+
+async function deleteWallet (walletName, isDryRun) {
+  if (isDryRun) {
+    console.log(`[DRY RUN] Wallet ${walletName} would be deleted.`)
+  } else {
+    return asyncrimraf(`${getWalletDirectory()}${walletName}`)
+  }
+}
+
+async function listWallets (globPattern = '*') {
+  if (globPattern.match(/\.\./)) {
+    throw Error(`Wallet selection glob cannot contain ".." to go up in directory tree.`)
+  }
   const walletDirectory = getWalletDirectory()
-  const walletNames = fs.readdirSync(walletDirectory)
-  return walletNames
+  return glob.sync(globPattern, { cwd: walletDirectory })
 }
 
 async function findKeyForWallet (walletName, testKeys) {
@@ -45,3 +63,5 @@ async function findKeysForWallets (walletNames, tryKeys) {
 module.exports.listWallets = listWallets
 module.exports.findKeyForWallet = findKeyForWallet
 module.exports.findKeysForWallets = findKeysForWallets
+module.exports.walletExists = walletExists
+module.exports.deleteWallet = deleteWallet
